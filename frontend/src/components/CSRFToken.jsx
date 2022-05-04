@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/apiConfig';
 
 export default function CSRFToken() {
   const [csrftoken, setcsrftoken] = useState("");
@@ -7,9 +7,9 @@ export default function CSRFToken() {
   const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
+        let cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
+            let cookie = cookies[i].trim();
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -20,16 +20,16 @@ export default function CSRFToken() {
   }
 
   useEffect(() => {
-    const fetchCookie = async () => {
+    const fetchData = async () => {
       try {
-        await axios.get("/accounts/csrf_cookie");
+        await api.get("/accounts/csrf_cookie");
+        setcsrftoken(getCookie('csrftoken'));
       } catch (error) {
-        
+        console.error(error)
       }
     }
 
-    fetchCookie();
-    setcsrftoken(getCookie('csrftoken'))
+    fetchData();
   }, [])
 
   return (

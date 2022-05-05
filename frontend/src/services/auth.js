@@ -85,3 +85,24 @@ export const register = async (credentials) => {
     console.error(error);
   }
 };
+
+export const delete_account = async () => {
+  const config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
+    },
+  };
+
+  const body = JSON.stringify({
+    withCredentials: true,
+  });
+
+  try {
+    const response = await api.delete("/accounts/delete", body, config);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

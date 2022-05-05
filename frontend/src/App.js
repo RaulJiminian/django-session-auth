@@ -36,7 +36,13 @@ function App() {
           />
           <Route
             path="/dashboard"
-            element={<Dashboard user={user} setUser={setUser} />}
+            element={
+              <Dashboard
+                user={user}
+                setUser={setUser}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
           />
         </Routes>
       </Layout>

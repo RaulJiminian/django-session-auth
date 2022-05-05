@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { update_profile } from "../services/profile";
+import { delete_account } from "../services/auth";
+import CSRFToken from "../components/CSRFToken";
 
-export default function Dashboard({user, setUser}) {
+export default function Dashboard({user, setUser, setIsAuthenticated}) {
   const [formData, setFormData] = useState({
     first_name: user?.profile.first_name,
     last_name: user?.profile.last_name,
     phone: user?.profile.phone,
     city: user?.profile.city,
   });
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     setFormData({
@@ -29,6 +34,15 @@ export default function Dashboard({user, setUser}) {
     });
   };
 
+  const handleDelete = async () => {
+    const res = await delete_account()
+
+    if (res.data.success) {
+      setIsAuthenticated(false)
+      navigate('/')
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -41,6 +55,7 @@ export default function Dashboard({user, setUser}) {
       <h1 className="mt-3">Welcome to your User Dashboard</h1>
       <p className="mt-3 mb-3">Update your user profile below:</p>
       <form onSubmit={handleSubmit}>
+      <CSRFToken />
         <div className="form-group">
           <label className="form-label" htmlFor="first_name">
             First Name
@@ -100,9 +115,9 @@ export default function Dashboard({user, setUser}) {
       <p className="mt-5">
         Click the button below to delete your user account:
       </p>
-      {/* <a className="btn btn-danger" href="#!" onClick={delete_account}>
+      <button className="btn btn-danger" onClick={handleDelete}>
         Delete Account
-      </a> */}
+      </button>
     </div>
   );
 }

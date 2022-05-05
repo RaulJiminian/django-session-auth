@@ -1,13 +1,16 @@
 import React, { Fragment } from "react";
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { logout } from "../services/auth";
 
 export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
+  let navigate = useNavigate()
+
   const handleClick = async () => {
     const res = await logout();
 
     if (res.success) {
-      setIsAuthenticated(false)
+      setIsAuthenticated(false);
+      navigate('/');
     }
   }
 
@@ -17,7 +20,7 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
         <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink>
       </li>
       <li className="nav-item">
-        <a className="nav-link" onClick={handleClick} href="#!">Logout</a>
+        <button className="nav-link" onClick={handleClick}>Logout</button>
       </li>
     </Fragment>
   )

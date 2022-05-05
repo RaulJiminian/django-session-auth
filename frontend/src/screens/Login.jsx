@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { login } from "../services/auth";
+import { load_user } from "../services/profile";
 import CSRFToken from "../components/CSRFToken";
 
-export default function Login({ isAuthenticated, setIsAuthenticated}) {
+export default function Login({ isAuthenticated, setIsAuthenticated, setUser}) {
   const [formData, setFormData] = useState({
     username: "",
     password: ""
@@ -21,8 +22,10 @@ export default function Login({ isAuthenticated, setIsAuthenticated}) {
     e.preventDefault();
 
     const res = await login(formData);
-
+    
     if (res.data.success) {
+      const userData = await load_user();
+      setUser(userData);
       setIsAuthenticated(true)
     }
   };

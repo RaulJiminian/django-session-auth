@@ -39,7 +39,7 @@ class LoginView(APIView):
 
       if user is not None:
         auth.login(request, user)
-        return Response({'success': 'User authenticated', 'username': username})
+        return Response({'success': 'User authenticated'})
       else:
         return Response({'error': 'Error Authenticating'})
     except:

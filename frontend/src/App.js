@@ -13,12 +13,31 @@ function App() {
 
   return (
     <div className="App">
-      <Layout isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}>
+      <Layout
+        isAuthenticated={isAuthenticated}
+        setIsAuthenticated={setIsAuthenticated}
+        setUser={setUser}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register isAuthenticated={isAuthenticated}/>} />
-          <Route path="/login" element={<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/register"
+            element={<Register isAuthenticated={isAuthenticated} />}
+          />
+          <Route
+            path="/login"
+            element={
+              <Login
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+                setUser={setUser}
+              />
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={<Dashboard user={user} setUser={setUser} />}
+          />
         </Routes>
       </Layout>
     </div>

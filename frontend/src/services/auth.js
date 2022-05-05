@@ -1,6 +1,29 @@
 import api from "./apiConfig";
 import Cookies from "js-cookie";
 
+export const checkAuthenticated = async () => {
+  const config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const response = await api.get("/accounts/authenticated", config);
+
+    if (response.data.error || response.data.isAuthenticated === "error") {
+      return false;
+    } else if (response.data.isAuthenticated === "success") {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const login = async (credentials) => {
   const config = {
     headers: {
@@ -14,7 +37,7 @@ export const login = async (credentials) => {
     const response = await api.post("/accounts/login", credentials, config);
 
     if (response.data.success) {
-      return response.data;
+      return response;
     }
   } catch (error) {
     console.error(error);

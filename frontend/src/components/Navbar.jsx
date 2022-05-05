@@ -1,7 +1,27 @@
 import React, { Fragment } from "react";
 import { Link, NavLink } from 'react-router-dom';
+import { logout } from "../services/auth";
 
-export default function Navbar() {
+export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
+  const handleClick = async () => {
+    const res = await logout();
+
+    if (res.success) {
+      setIsAuthenticated(false)
+    }
+  }
+
+  const authLinks = (
+    <Fragment>
+      <li className="nav-item">
+        <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link" onClick={handleClick} href="#!">Logout</a>
+      </li>
+    </Fragment>
+  )
+
   const guestLinks = (
     <Fragment>
       <li className="nav-item">
@@ -36,7 +56,7 @@ export default function Navbar() {
               <NavLink className="nav-link" to="/">Home</NavLink>
             </li>
             {/* If user is authenticated, show dashboard and logout - otherwise, show login and signup */}
-            { guestLinks }
+            { isAuthenticated ? authLinks : guestLinks }
           </ul>
         </div>
       </div>

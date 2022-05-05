@@ -3,7 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { register } from "../services/auth";
 import CSRFToken from "../components/CSRFToken";
 
-export default function Register() {
+export default function Register({isAuthenticated}) {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -31,7 +31,9 @@ export default function Register() {
     }
   };
 
-  if (accountCreated) {
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  } else if (accountCreated) {
     return <Navigate to="/login" replace />;
   }
 

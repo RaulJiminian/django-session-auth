@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { login } from "../services/auth";
-import { load_user } from "../services/profile";
+// import { login } from "../services/auth";
+// import { load_user } from "../services/profile";
 import CSRFToken from "../components/CSRFToken";
+import Cookies from "js-cookie";
 
 export default function Login({ isAuthenticated, setIsAuthenticated, setUser}) {
   const [formData, setFormData] = useState({
@@ -18,16 +19,53 @@ export default function Login({ isAuthenticated, setIsAuthenticated, setUser}) {
     });
   };
 
-  const handleSubmit = async (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const res = await login(formData);
+    
+  //   if (res.data.success) {
+  //     const userData = await load_user();
+  //     setUser(userData);
+  //     setIsAuthenticated(true)
+  //   }
+  // };
+ 
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const res = await login(formData);
-    
-    if (res.data.success) {
-      const userData = await load_user();
-      setUser(userData);
-      setIsAuthenticated(true)
+    let options = {
+      method: 'POST',
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken")
+      },
+      credentials: 'include',
+      body: JSON.stringify(formData)
     }
+
+    let userOptions = {
+      method: 'GET',
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+    }
+
+    fetch('http://localhost:8000/accounts/login', options).then((response) => {
+      return response.json()
+    }).then((data) => {
+      console.log(data)
+      fetch('http://localhost:8000/profile/user', userOptions).then((response) => {
+        return response.json()
+      }).then((data) => {
+        console.log(data)
+        setIsAuthenticated(true)
+        setUser(data)
+      })
+    })
   };
 
   if (isAuthenticated) {

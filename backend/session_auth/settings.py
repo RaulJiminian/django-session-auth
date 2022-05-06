@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6fmic_gv3p%x02v5(8x%b37utt9)p$8ykr44j6@edg1!2#t6e&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -56,12 +56,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'session_auth.urls'
 
-# To Add Below: 'DIRS': [os.path.join(BASE_DIR, 'build')],
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'build')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +71,24 @@ TEMPLATES = [
         },
     },
 ]
+
+# To Add Below: 'DIRS': [os.path.join(BASE_DIR, 'build')],
+
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [os.path.join(BASE_DIR, 'build')],
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#             ],
+#         },
+#     },
+# ]
 
 WSGI_APPLICATION = 'session_auth.wsgi.application'
 
@@ -126,11 +142,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-  os.path.join(BASE_DIR, 'build/static')
-]
+# STATICFILES_DIRS = [
+#   os.path.join(BASE_DIR, 'build/static')
+# ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 REST_FRAMEWORK = {
   'DEFAULT_PERMISSION_CLASSES': [
@@ -142,6 +158,10 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CSRF_COOKIE_HTTPONLY = False
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:8000/']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

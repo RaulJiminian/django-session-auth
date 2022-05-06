@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../services/apiConfig';
+// import api from '../services/apiConfig';
 
 export default function CSRFToken() {
   const [csrftoken, setcsrftoken] = useState("");
@@ -20,17 +20,25 @@ export default function CSRFToken() {
     return cookieValue;
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get("/accounts/csrf_cookie");
-        setcsrftoken(getCookie('csrftoken'));
-      } catch (error) {
-        console.error(error)
-      }
-    }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await api.get("/accounts/csrf_cookie");
+  //       setcsrftoken(getCookie('csrftoken'));
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
 
-    fetchData();
+  //   fetchData();
+  // }, [])
+  
+  useEffect(() => {
+    fetch("http://localhost:8000/accounts/csrf_cookie", {
+      credentials: "include",
+    }).then((response) => {
+      setcsrftoken(getCookie("csrftoken"));
+    });
   }, [])
 
   return (

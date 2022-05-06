@@ -1,6 +1,7 @@
 import api from "./apiConfig";
 import Cookies from "js-cookie";
 
+// Checked
 export const load_user = async () => {
   const config = {
     headers: {
@@ -22,6 +23,7 @@ export const load_user = async () => {
   }
 };
 
+// Checked
 export const update_profile = async (formData) => {
   const config = {
     headers: {

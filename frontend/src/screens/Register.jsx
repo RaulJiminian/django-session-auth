@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-// import { register } from "../services/auth";
 import CSRFToken from "../components/CSRFToken";
 import Cookies from "js-cookie";
 
@@ -45,17 +44,6 @@ export default function Register({isAuthenticated}) {
     };
 
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   const { password, re_password } = formData;
-
-  //   if (password === re_password) {
-  //     register(formData);
-  //     setAccountCreated(true);
-  //   }
-  // };
 
   if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
@@ -117,3 +105,17 @@ export default function Register({isAuthenticated}) {
     </div>
   );
 }
+
+
+// import { register } from "../services/auth";
+
+// const handleSubmit = (e) => {
+//   e.preventDefault();
+
+//   const { password, re_password } = formData;
+
+//   if (password === re_password) {
+//     register(formData);
+//     setAccountCreated(true);
+//   }
+// };

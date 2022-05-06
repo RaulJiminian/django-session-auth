@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { update_profile } from "../services/profile";
+// import { update_profile } from "../services/profile";
 import { delete_account } from "../services/auth";
 import CSRFToken from "../components/CSRFToken";
+import Cookies from "js-cookie";
 
 export default function Dashboard({user, setUser, setIsAuthenticated}) {
   const [formData, setFormData] = useState({
@@ -43,11 +44,33 @@ export default function Dashboard({user, setUser, setIsAuthenticated}) {
     }
   }
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const res = await update_profile(formData);
+  //   setUser(res.data);
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await update_profile(formData);
-    setUser(res.data);
+    let options = {
+      method: 'PUT',
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken")
+      },
+      credentials: 'include',
+      body: JSON.stringify(formData)
+    }
+
+    fetch('http://localhost:8000/profile/update', options).then((response) => {
+      return response.json()
+    }).then((data) => {
+      console.log(data)
+      setUser(data.data)
+    })
   };
 
   return (

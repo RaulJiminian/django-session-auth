@@ -1,17 +1,31 @@
 import React, { Fragment } from "react";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { logout } from "../services/auth";
+// import { logout } from "../services/auth";
+import Cookies from "js-cookie";
+
 
 export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
   let navigate = useNavigate()
 
-  const handleClick = async () => {
-    const res = await logout();
-
-    if (res.success) {
-      setIsAuthenticated(false);
-      navigate('/');
+  const handleClick = () => {
+    let options = {
+      method: 'POST',
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken")
+      },
+      credentials: 'include',
     }
+  
+    fetch('http://localhost:8000/accounts/logout', options).then((response) => {
+      return response.json()
+    }).then((data) => {
+      if (data.success) {
+        setIsAuthenticated(false);
+        navigate('/');
+      }
+    })
   }
 
   const authLinks = (
@@ -58,7 +72,6 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
             <li className="nav-item">
               <NavLink className="nav-link" to="/">Home</NavLink>
             </li>
-            {/* If user is authenticated, show dashboard and logout - otherwise, show login and signup */}
             { isAuthenticated ? authLinks : guestLinks }
           </ul>
         </div>
@@ -66,3 +79,12 @@ export default function Navbar({ isAuthenticated, setIsAuthenticated }) {
     </nav>
   );
 }
+
+// const handleClick = async () => {
+  //   const res = await logout();
+
+  //   if (res.success) {
+  //     setIsAuthenticated(false);
+  //     navigate('/');
+  //   }
+  // }

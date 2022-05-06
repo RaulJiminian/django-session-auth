@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-// import { login } from "../services/auth";
-// import { load_user } from "../services/profile";
 import CSRFToken from "../components/CSRFToken";
 import Cookies from "js-cookie";
 
@@ -18,18 +16,6 @@ export default function Login({ isAuthenticated, setIsAuthenticated, setUser}) {
       [name]: value,
     });
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const res = await login(formData);
-    
-  //   if (res.data.success) {
-  //     const userData = await load_user();
-  //     setUser(userData);
-  //     setIsAuthenticated(true)
-  //   }
-  // };
  
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -113,3 +99,18 @@ export default function Login({ isAuthenticated, setIsAuthenticated, setUser}) {
     </div>
   );
 }
+
+// import { login } from "../services/auth";
+// import { load_user } from "../services/profile";
+
+// const handleSubmit = async (e) => {
+//   e.preventDefault();
+
+//   const res = await login(formData);
+  
+//   if (res.data.success) {
+//     const userData = await load_user();
+//     setUser(userData);
+//     setIsAuthenticated(true)
+//   }
+// };

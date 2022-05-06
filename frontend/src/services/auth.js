@@ -1,6 +1,7 @@
 import api from "./apiConfig";
 import Cookies from "js-cookie";
 
+// Checked
 export const checkAuthenticated = async () => {
   const config = {
     headers: {
@@ -24,6 +25,7 @@ export const checkAuthenticated = async () => {
   }
 };
 
+// Checked
 export const login = async (credentials) => {
   const config = {
     headers: {
@@ -68,6 +70,7 @@ export const logout = async () => {
   }
 };
 
+// Checked
 export const register = async (credentials) => {
   const config = {
     headers: {
